@@ -143,13 +143,13 @@ class vrednost_parcele:
         # Zamisljam da sam koeficijente ucitao iz ulaznog fajla
         koef=[1.00, 0.85, 0.80, 0.75, 0.70, 0.60, 0.50, 0.40, 0.00]
         
-        # Pokugi redove
+        # Izbroj redove
         iter=trecilayer.getFeatures()
         
         for red in iter:
             razred=red.Procembeni()
             povrsina=red.AreaI_0()
-            nova=povrsina*koef(razred-1)
+            nova=povrsina*koef[razred-1]
             if caps & QgsVectorDataProvider.ChangeAttributeValues:
                 attrs = {-1 : nova }
                 trecilayer.dataProvider().changeAttributeValues({ red : attrs })
