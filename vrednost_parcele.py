@@ -126,7 +126,7 @@ class vrednost_parcele:
         trecilayer = QgsMapLayerRegistry.instance().addMapLayer(label_layer3)
         
         # moj dodatak
-        name = "noviAtribut" 
+        name = "Vrednost" 
         provider = trecilayer.dataProvider()
         caps = provider.capabilities()
         # Check if attribute is already there, return "-1" if not
@@ -134,7 +134,7 @@ class vrednost_parcele:
         try:
             if ind == -1:
                 if caps & QgsVectorDataProvider.AddAttributes:
-                    res = provider.addAttributes( [ QgsField(name,QVariant.Double) ] )
+                    res = provider.addAttributes( [ QgsField(name,QVariant.Double)])
         except:
             return False
     
@@ -147,12 +147,14 @@ class vrednost_parcele:
         iter=trecilayer.getFeatures()
         
         for red in iter:
-            razred=red.Procembeni()
-            povrsina=red.AreaI_0()
-            nova=povrsina*koef[razred-1]
+            razred=red['Procembeni'] 
+            povrsina=red['AreaI_0'] 
+            nova=povrsina*koef[int(razred)-1]
             if caps & QgsVectorDataProvider.ChangeAttributeValues:
                 attrs = {-1 : nova }
                 trecilayer.dataProvider().changeAttributeValues({ red : attrs })
+        trecilayer.updateFields()
+                
         
         
 
